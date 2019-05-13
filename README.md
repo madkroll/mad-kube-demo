@@ -10,3 +10,9 @@ Minikube uses it's own docker daemon. So before using containers in minikube - f
 'docker save _image_id_ | (eval $(minikube docker-env) && docker load)'
 
 Alternatively one may build containers directly in minikube docker
+
+## contains
+- installation and setup (docker, kubernetes, minikube, CI)
+- stateless service
+- distributed in-memory cache service
+- scheduled cron job
