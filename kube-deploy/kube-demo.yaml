@@ -52,7 +52,7 @@ metadata:
   labels:
     app: kube-stateful-cache
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: kube-stateful-cache
   ports:
@@ -95,7 +95,7 @@ spec:
     spec:
       containers:
         - name: kube-stateful-cache
-          image: kube-stateful-cache:1.0-SNAPSHOT
+          image: madkubedemoacr.azurecr.io/kube-stateful-cache:1.0-SNAPSHOT
           ports:
             - containerPort: 8080
           livenessProbe:

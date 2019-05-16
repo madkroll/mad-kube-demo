@@ -45,3 +45,10 @@ az aks create \
 echo "## Connecting kubectl to AKS cluster"
 az aks get-credentials --resource-group "${RG_NAME}" --name "${AKS_NAME}"
 kubectl get nodes
+
+# WARNING: This configuration is for demo purposes only and should not be used in production environments.
+# Read more about RBAC and setting privileges in AKS:
+# https://docs.microsoft.com/en-us/azure/aks/kubernetes-dashboard
+echo "## Configuring RBAC in AKS"
+kubectl apply -f ../kube-deploy/rbac.yaml
+kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
