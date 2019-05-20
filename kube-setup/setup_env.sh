@@ -61,3 +61,11 @@ apt-get install -qy virtualbox
 curl -Lo minikube "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64" && chmod +x ./minikube
 ./minikube config set vm-driver virtualbox
 cp ./minikube /usr/local/bin && rm ./minikube
+
+log "## Installing 'snapd'"
+# On old Ubuntu versions snapd may not be installed
+# NOTE: This step may require OS reboot afterwards
+# apt-get -qy install snapd
+
+log "## Installing 'helm'"
+snap install helm --classic

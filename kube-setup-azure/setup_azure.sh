@@ -10,6 +10,16 @@ set -exo pipefail
 # - Azure Kubernetes Service (AKS) cluster
 # - Azure service principal used by AKS cluster to access other Azure resources
 
+# This script requires tools installed:
+# - az
+# - jq
+# - kubectl
+# - helm
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_DIR="$( cd ${SCRIPT_DIR}/.. && pwd)"
+THIS_SCRIPT_FILE_NAME="${0}"
+
 RG_NAME="madkubedemo"
 ACR_NAME="${RG_NAME}acr"
 ACR_SP_NAME="${RG_NAME}sp"
@@ -24,7 +34,7 @@ az acr create --resource-group "${RG_NAME}" --name "${ACR_NAME}" --sku Basic
 ACR_ID=$(az acr show --resource-group "${RG_NAME}" --name "${ACR_NAME}" --query "id" --output tsv)
 
 echo "## Verifying ACR has been created successfully"
-az acr login --name ${ACR_NAME}
+az acr login --name "${ACR_NAME}"
 
 echo "## Creating service principal to access ACR"
 ACR_SP_CREDS=$(az ad sp create-for-rbac --name "${ACR_SP_NAME}" --subscription "${SUBSCRIPTION_ID}")
@@ -50,5 +60,16 @@ kubectl get nodes
 # Read more about RBAC and setting privileges in AKS:
 # https://docs.microsoft.com/en-us/azure/aks/kubernetes-dashboard
 echo "## Configuring RBAC in AKS"
-kubectl apply -f ../kube-deploy/rbac.yaml
+kubectl apply -f "${PROJECT_DIR}/kube-deploy/rbac.yaml"
 kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+
+echo "## Installing 'helm'"
+# First, apply helm-specific rbac
+# More details on how to secure helm-tiller:
+# https://docs.microsoft.com/en-us/azure/aks/kubernetes-helm
+# https://helm.sh/docs/using_helm/#tiller-namespaces-and-rbac
+# https://helm.sh/docs/using_helm/#using-ssl-between-helm-and-tiller
+# https://helm.sh/docs/using_helm/#role-based-access-control
+kubectl apply -f "${PROJECT_DIR}/kube-deploy/helm-rbac.yaml"
+# Deploy tiller
+helm init --service-account tiller
