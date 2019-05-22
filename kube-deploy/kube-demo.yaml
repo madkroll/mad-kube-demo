@@ -111,14 +111,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
+#    nginx.ingress.kubernetes.io/whitelist-source-range: "place here CIDR to whitelist"
 spec:
   tls:
     - hosts:
         - mad-kube-demo-dns.westeurope.cloudapp.azure.com
       secretName: mad-kube-demo-secret
   rules:
-    - host: mad-kube-demo-dns.westeurope.cloudapp.azure.com
-      http:
+    - http:
         paths:
           - path: /
             backend:

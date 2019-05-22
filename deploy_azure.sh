@@ -14,9 +14,9 @@ echo "## Deploying nginx-based ingress controller"
 # More on that:
 # https://docs.microsoft.com/en-us/azure/aks/ingress-basic
 # Use Helm to deploy an NGINX ingress controller
-helm install stable/nginx-ingress --set controller.replicaCount=2
+helm install stable/nginx-ingress --set controller.replicaCount=2 --set controller.service.externalTrafficPolicy=Local
 
-# TODO: wait until IP address is assigned
+# TODO: wait until IP address is assigned, you check a state by: kubectl get services
 # TODO: if empty - fail
 
 echo "## Update public ip address with DNS name"
