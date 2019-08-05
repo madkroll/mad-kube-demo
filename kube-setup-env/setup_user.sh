@@ -2,16 +2,14 @@
 
 set -eo pipefail
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 ###########################################
 # INTERNAL FUNCTIONS
 ###########################################
 
 function isodate() {
     date --iso-8601=seconds
-}
-
-function error() {
-    echo "$(isodate): $@">&2
 }
 
 function log() {
@@ -22,6 +20,7 @@ log "## Add user ${USER} to user group 'docker'"
 sudo groupadd docker
 sudo gpasswd -a "${USER}" docker
 
+log "## Setup users under 'docker' group"
 newgrp docker<<SETUP_ENV
-sudo ./setup_env.sh
+sudo ${SCRIPT_DIR}/setup_env.sh
 SETUP_ENV

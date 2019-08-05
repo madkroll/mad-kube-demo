@@ -10,10 +10,6 @@ function isodate() {
     date --iso-8601=seconds
 }
 
-function error() {
-    echo "$(isodate): $@">&2
-}
-
 function log() {
     echo "$(isodate): $@"
 }
@@ -22,9 +18,7 @@ log "## Updating 'apt-get'"
 apt-get -qy update
 
 log "## Installing 'java'"
-add-apt-repository -y ppa:openjdk-r/ppa
-apt-get -qy update
-apt-get -qy install openjdk-8-jdk openjdk-8-jre
+apt-get -qy install openjdk-11-jdk
 
 log "## Setup docker repository"
 # Install packages to allow apt to use a repository over HTTPS:
