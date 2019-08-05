@@ -16,7 +16,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>kube-stateless</module>
         <module>kube-stateful-cache</module>
     </modules>
 

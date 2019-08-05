@@ -22,7 +22,6 @@ set -eo pipefail
 #minikube dashboard
 
 # list endpoints
-#echo "## Stateless: $(minikube service kube-stateless-service --url)"
 #echo "## Stateful: $(minikube service kube-stateful-cache-service --url)"
 
 # list namespaces

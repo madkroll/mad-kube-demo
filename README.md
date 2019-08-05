@@ -13,7 +13,6 @@ Alternatively one may build containers directly in minikube docker
 
 ## contains
 - installation and setup (docker, kubernetes, minikube, CI)
-- stateless service
 - distributed in-memory cache service
 - scheduled cron job
 - ingress service
